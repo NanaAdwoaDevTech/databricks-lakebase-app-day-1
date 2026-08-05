@@ -1,0 +1,47 @@
+<!--
+  AI Disclosure: This template's structure and styling were generated with AI
+  assistance (Claude) as part of building this app. See reflection for details.
+-->
+{% extends "support_base.html" %}
+{% block content %}
+  <h1>Support Desk</h1>
+
+  <div class="stats">
+    {% for s in stats %}
+      <div class="stat"><strong>{{ s.n }}</strong><br><span class="badge badge-{{ s.status }}">{{ s.status }}</span></div>
+    {% endfor %}
+  </div>
+
+  <div class="card">
+    <form method="get" action="{{ url_for('index') }}">
+      <label>Filter by status</label>
+      <select name="status" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="open" {% if status_filter == 'open' %}selected{% endif %}>open</option>
+        <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>in_progress</option>
+        <option value="resolved" {% if status_filter == 'resolved' %}selected{% endif %}>resolved</option>
+      </select>
+    </form>
+  </div>
+
+  {% for t in tickets %}
+    <div class="card">
+      <a href="{{ url_for('view_ticket', ticket_id=t.ticket_id) }}"><strong>#{{ t.ticket_id }} — {{ t.title }}</strong></a>
+      <span class="badge badge-{{ t.status }}">{{ t.status }}</span>
+      <div class="msg-meta">opened by {{ t.created_by }} on {{ t.created_at }}</div>
+    </div>
+  {% else %}
+    <p>No tickets yet.</p>
+  {% endfor %}
+
+  <div class="card">
+    <h3>New ticket</h3>
+    <form method="post" action="{{ url_for('create_ticket') }}">
+      <label>Title</label>
+      <input type="text" name="title" required>
+      <label>Your name</label>
+      <input type="text" name="created_by" required>
+      <button type="submit">Create ticket</button>
+    </form>
+  </div>
+{% endblock %}
