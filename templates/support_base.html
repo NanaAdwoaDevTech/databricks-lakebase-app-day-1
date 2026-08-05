@@ -1,0 +1,43 @@
+<!--
+  AI Disclosure: This template's structure and styling were generated with AI
+  assistance (Claude) as part of building this app. I understand how it works
+  and can explain/modify any part of it. Backend logic (support_app.py) and
+  infrastructure debugging were also AI-assisted — see my written reflection
+  for details.
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Support Desk</title>
+  <style>
+    body { font-family: -apple-system, Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 16px; background: #f7f7f9; color: #1a1a1a; }
+    h1 { margin-bottom: 4px; }
+    .card { background: white; border: 1px solid #e2e2e5; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+    .badge-open { background: #fde8e8; color: #c0392b; }
+    .badge-in_progress { background: #fff4d6; color: #a5720b; }
+    .badge-resolved { background: #e3f7e9; color: #1e7d3c; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    input, textarea, select { width: 100%; padding: 8px; margin: 6px 0 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+    button { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    button.secondary { background: #6b7280; }
+    button.danger { background: #dc2626; }
+    .flash-success { background: #e3f7e9; color: #1e7d3c; padding: 10px; border-radius: 6px; margin-bottom: 12px; }
+    .flash-error { background: #fde8e8; color: #c0392b; padding: 10px; border-radius: 6px; margin-bottom: 12px; }
+    .stats { display: flex; gap: 12px; margin-bottom: 16px; }
+    .stat { background: white; border: 1px solid #e2e2e5; border-radius: 8px; padding: 10px 16px; text-align: center; }
+    .message { border-left: 3px solid #2563eb; padding-left: 12px; margin-bottom: 10px; }
+    .msg-meta { font-size: 12px; color: #777; }
+  </style>
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in messages %}
+      <div class="flash-{{ category }}">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+</html>
