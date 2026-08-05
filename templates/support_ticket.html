@@ -1,0 +1,49 @@
+<!--
+  AI Disclosure: This template's structure and styling were generated with AI
+  assistance (Claude) as part of building this app. See reflection for details.
+-->
+{% extends "support_base.html" %}
+{% block content %}
+  <p><a href="{{ url_for('index') }}">&larr; back to all tickets</a></p>
+  <h1>#{{ ticket.ticket_id }} — {{ ticket.title }}</h1>
+  <span class="badge badge-{{ ticket.status }}">{{ ticket.status }}</span>
+  <p class="msg-meta">opened by {{ ticket.created_by }} on {{ ticket.created_at }}</p>
+
+  <div class="card">
+    <h3>Update status</h3>
+    <form method="post" action="{{ url_for('update_status', ticket_id=ticket.ticket_id) }}">
+      <select name="status">
+        <option value="open" {% if ticket.status == 'open' %}selected{% endif %}>open</option>
+        <option value="in_progress" {% if ticket.status == 'in_progress' %}selected{% endif %}>in_progress</option>
+        <option value="resolved" {% if ticket.status == 'resolved' %}selected{% endif %}>resolved</option>
+      </select>
+      <button type="submit">Save status</button>
+    </form>
+  </div>
+
+  <h3>Messages</h3>
+  {% for m in messages %}
+    <div class="message">
+      <div>{{ m.message_text }}</div>
+      <div class="msg-meta">{{ m.author }} — {{ m.created_at }}</div>
+    </div>
+  {% else %}
+    <p>No messages yet.</p>
+  {% endfor %}
+
+  <div class="card">
+    <h3>Add a message</h3>
+    <form method="post" action="{{ url_for('add_message', ticket_id=ticket.ticket_id) }}">
+      <label>Message</label>
+      <textarea name="message_text" rows="3" required></textarea>
+      <label>Your name</label>
+      <input type="text" name="author" required>
+      <button type="submit">Add message</button>
+    </form>
+  </div>
+
+  <form method="post" action="{{ url_for('delete_ticket', ticket_id=ticket.ticket_id) }}"
+        onsubmit="return confirm('Delete this ticket and all its messages? This cannot be undone.');">
+    <button type="submit" class="danger">Delete ticket</button>
+  </form>
+{% endblock %}
