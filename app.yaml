@@ -1,6 +1,6 @@
 command:
   - "python"
-  - "app.py"
+  - "support_app.py"
 
 env:
   - name: LAKEBASE_SECRET_SCOPE
